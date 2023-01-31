@@ -9,7 +9,10 @@ prefix npx: <http://purl.org/nanopub/x/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix dct: <http://purl.org/dc/terms/>
 
-select distinct ?np ?person ?rel ?paper ?text ?date ?pubkey where {
+select distinct ?np ?person ?rel ?reltext ?pub ?text ?date ?pubkey where {
+  graph npa:networkGraph {
+     ?_pub_iri npx:supersedes* ?pub .
+  }
   graph npa:graph {
     ?np npa:hasHeadGraph ?h .
     ?np dct:created ?date .
@@ -21,10 +24,12 @@ select distinct ?np ?person ?rel ?paper ?text ?date ?pubkey where {
   }
   graph ?a {
     ?a dct:creator ?person .
-    ?a ?rel ?__paper_iri .
+    ?a ?rel ?pub .
     optional { ?a rdfs:comment ?text . }
     filter regex(?rel, "http://purl.org/spar/cito/.*")
-    bind(?__paper_iri as ?paper)
+  }
+  graph <http://purl.org/np/RA6d0qLmlRdXd-ubre83LxP22auJdJjXGzaW3W3qH4Neo#assertion> {
+    ?rel rdfs:label ?reltext .
   }
   graph ?i {
     ?np dct:creator ?person .
