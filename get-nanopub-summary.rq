@@ -30,4 +30,4 @@ select distinct ?np ?user (count(?subj) as ?assertionTriples) (sample(?subj) as 
     optional { ?_np_iri npx:introduces ?thing . }
   }
   bind(?_np_iri as ?np)
-} group by ?user ?thing ?thingLabel ?date
+} group by ?np ?user ?thing ?thingLabel ?date
