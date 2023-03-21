@@ -11,7 +11,8 @@ prefix dct: <http://purl.org/dc/terms/>
 prefix oa: <http://www.w3.org/ns/oa#>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-select distinct ?user (sample(?subj) as ?subjSample) (sample(?rel) as ?relSample) (sample(?obj) as ?objSample) (count(?subj) as ?assertiontriples) ?thing ?thingLabel ?date where {
+select distinct ?user (count(?subj) as ?assertiontriples) ?thing ?thingLabel ?date where {
+  # (sample(?subj) as ?subjSample) (sample(?rel) as ?relSample) (sample(?obj) as ?objSample)
   graph npa:networkGraph {
      ?_nanopub_iri npx:supersedes{0} ?np .
   }
