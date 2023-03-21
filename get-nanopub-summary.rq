@@ -11,7 +11,7 @@ prefix dct: <http://purl.org/dc/terms/>
 prefix oa: <http://www.w3.org/ns/oa#>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-select distinct ?user (sample(?subj) as ?subjSample) (sample(?rel) as ?relSample) (sample(?obj) as ?objSample) (count(?subj) as ?assertiontriples) ?thing ?thingLabel ?date where {
+select distinct ?np ?user (count(?subj) as ?assertionTriples) (sample(?subj) as ?subjSample) (sample(?rel) as ?relSample) (sample(?obj) as ?objSample) ?thing ?thingLabel ?date where {
   graph npa:graph {
     ?_np_iri npa:hasHeadGraph ?h .
     ?_np_iri dct:created ?date .
@@ -29,4 +29,5 @@ select distinct ?user (sample(?subj) as ?subjSample) (sample(?rel) as ?relSample
     ?_np_iri dct:creator ?user .
     optional { ?_np_iri npx:introduces ?thing . }
   }
+  bind(?_np_iri as ?np)
 } group by ?user ?thing ?thingLabel ?date
