@@ -22,7 +22,7 @@ select distinct ?user (sample(?subj) as ?subjSample) (sample(?rel) as ?relSample
   }
   graph ?h {
     ?_np_iri np:hasAssertion ?a .
-    ?_np_iri np:hasPublicationInfo ?i.
+    ?_np_iri np:hasPublicationInfo ?i .
   }
   graph ?a {
     ?subj ?rel ?obj .
