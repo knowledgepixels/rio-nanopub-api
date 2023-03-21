@@ -13,20 +13,20 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 select distinct ?user (sample(?subj) as ?subjSample) (sample(?rel) as ?relSample) (sample(?obj) as ?objSample) (count(?subj) as ?assertiontriples) ?thing ?thingLabel ?date where {
   graph npa:graph {
-    ?_nanopub_iri npa:hasHeadGraph ?h .
-    ?_nanopub_iri dct:created ?date .
-    ?_nanopub_iri npa:hasValidSignatureForPublicKey ?pubkey .
+    ?_np_iri npa:hasHeadGraph ?h .
+    ?_np_iri dct:created ?date .
+    ?_np_iri npa:hasValidSignatureForPublicKey ?pubkey .
   }
   graph ?h {
-    ?_nanopub_iri np:hasAssertion ?a .
-    ?_nanopub_iri np:hasPublicationInfo ?i .
+    ?_np_iri np:hasAssertion ?a .
+    ?_np_iri np:hasPublicationInfo ?i .
   }
   graph ?a {
     ?subj ?rel ?obj .
     optional { ?thing rdfs:label ?thingLabel. }
   }
   graph ?i {
-    ?_nanopub_iri dct:creator ?user .
-    optional { ?_nanopub_iri npx:introduces ?thing . }
+    ?_np_iri dct:creator ?user .
+    optional { ?_np_iri npx:introduces ?thing . }
   }
-} group by ?_nanopub_iri ?user ?thing ?thingLabel ?date
+} group by ?user ?thing ?thingLabel ?date
