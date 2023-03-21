@@ -30,6 +30,6 @@ select distinct ?user (sample(?subj) as ?subjSample) (sample(?rel) as ?relSample
   }
   graph ?i {
     ?_np_iri dct:creator ?user .
-    optional { ?_np_iri (npx:introduces|npx:describes) ?thing . }
+    optional { ?_np_iri npx:introduces ?thing . }
   }
 } group by ?_np_iri ?user ?thing ?thingLabel ?date
