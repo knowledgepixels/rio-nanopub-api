@@ -10,7 +10,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix dct: <http://purl.org/dc/terms/>
 prefix oa: <http://www.w3.org/ns/oa#>
 
-select distinct ?np ?user ?type ?subj ?subjLabel ?rel ?relLabel ?text ?date where {
+select distinct ?np ?user ?type ?subj ?subjLabel ?rel ?relLabel ?text ?selection ?date where {
   graph npa:graph {
     ?np npa:hasHeadGraph ?h .
     ?np dct:created ?date .
@@ -22,18 +22,27 @@ select distinct ?np ?user ?type ?subj ?subjLabel ?rel ?relLabel ?text ?date wher
   }
   graph ?a {
     ?subj ?rel ?_paper_iri .
-    optional { ?a rdfs:comment ?textPre . bind(str(?textPre) as ?text) }
   }
+  optional { ?a rdfs:comment ?textPre . bind(str(?textPre) as ?text) }
   optional { graph <http://purl.org/np/RA6d0qLmlRdXd-ubre83LxP22auJdJjXGzaW3W3qH4Neo#assertion> {
     ?rel rdfs:label ?relLabelPre .
     bind("cito" as ?typePre)
   } }
   optional { graph ?a {
-    ?annotation oa:hasTarget ?subj .
+    ?annotation oa:hasTarget ?annotationtarget ;
+      oa:hasBody ?annotationbody .
+    ?annotationbody rdf:value ?annotationtext .
+    ?annotationtarget oa:hasSource ?_paper_iri ;
+      oa:hasSelector ?annotationSelector .
+    optional { ?annotationSelector oa:prefix ?annotatedprefix . }
+    ?annotationSelector oa:exact ?annotatedtext .
+    optional { ?annotationSelector oa:suffix ?annotatedsuffix . }
     bind("oa" as ?typePre)
+    bind(str(?annotationtext) as ?text)
+    bind(concat(?annotatedprefix, " <h>", ?annotatedtext, "</h> ", ?annotatedsuffix) as ?selection)
   } }
   bind(replace(str(?subj), '^.*?([a-zA-Z0-9\\-\\_]+)$', '$1') as ?subjLabel).
-  bind(coalesce(str(?relLabelPre), replace(str(?subj), '^.*?([a-zA-Z0-9\\-\\_]+)$', '$1')) as ?relLabel).
+  bind(coalesce(str(?relLabelPre), replace(str(?rel), '^.*?([a-zA-Z0-9\\-\\_]+)$', '$1')) as ?relLabel).
   bind(coalesce(?typePre, "other") as ?type).
   graph ?i {
     ?np dct:creator ?user .
