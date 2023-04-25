@@ -39,7 +39,7 @@ select distinct ?np ?user ?type ?subj ?subjLabel ?rel ?relLabel ?text ?selection
     optional { ?annotationSelector oa:suffix ?annotatedsuffix . }
     bind("oa" as ?typePre)
     bind(str(?annotationtext) as ?text)
-    bind(concat(?annotatedprefix, " <h>", ?annotatedtext, "</h> ", ?annotatedsuffix) as ?selection)
+    bind(concat(?annotatedprefix, "<h>", ?annotatedtext, "</h>", ?annotatedsuffix) as ?selection)
   } }
   bind(replace(str(?subj), '^.*?([a-zA-Z0-9\\-\\_]+)$', '$1') as ?subjLabel).
   bind(coalesce(str(?relLabelPre), replace(str(?rel), '^.*?([a-zA-Z0-9\\-\\_]+)$', '$1')) as ?relLabel).
